@@ -21,3 +21,10 @@ func Make[T any](n int, f func(int) T) []T {
 	}
 	return ys
 }
+
+func Accumulate[T, U any](xs []T, acc U, f func(T, U) U) U {
+	for _, x := range xs {
+		acc = f(x, acc)
+	}
+	return acc
+}

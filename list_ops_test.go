@@ -63,3 +63,11 @@ func TestPMake(t *testing.T) {
 		t.Errorf("Make failed with list %v", vs)
 	}
 }
+
+func TestAccumulate(t *testing.T) {
+	vs := []int{1, 2, 3}
+	sum := Accumulate(vs, 0, func(x, acc int) int { return x + acc })
+	if sum != 6 {
+		t.Errorf("Accumulate failed with list %v", vs)
+	}
+}
