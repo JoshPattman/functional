@@ -71,3 +71,19 @@ func TestAccumulate(t *testing.T) {
 		t.Errorf("Accumulate failed with list %v", vs)
 	}
 }
+
+func TestFilter(t *testing.T) {
+	vs := []int{1, 2, 3}
+	us := Filter(vs, func(x int) bool { return x > 1 })
+	if len(us) != 2 {
+		t.Errorf("Filter failed with list %v", vs)
+	}
+}
+
+func TestPFilter(t *testing.T) {
+	vs := []int{1, 2, 3}
+	us := PFilter(vs, func(x int) bool { return x > 1 }, NumCPU())
+	if len(us) != 2 {
+		t.Errorf("Filter failed with list %v", vs)
+	}
+}

@@ -28,3 +28,13 @@ func Accumulate[T, U any](xs []T, acc U, f func(T, U) U) U {
 	}
 	return acc
 }
+
+func Filter[T any](xs []T, f func(T) bool) []T {
+	ys := make([]T, 0, len(xs))
+	for _, x := range xs {
+		if f(x) {
+			ys = append(ys, x)
+		}
+	}
+	return ys
+}

@@ -78,3 +78,31 @@ func PMake[T any](n int, f func(int) T, workers int) []T {
 	wg.Wait()
 	return ys
 }
+
+func PFilter[T any](xs []T, f func(T) bool, workers int) []T {
+	inputChan := make(chan int, len(xs))
+	ys := make([]T, 0, len(xs))
+	wg := sync.WaitGroup{}
+	for i := 0; i < workers; i++ {
+		go func() {
+			for {
+				index, ok := <-inputChan
+				if !ok {
+					return
+				}
+				if f(xs[index]) {
+					ys = append(ys, xs[index])
+				}
+				wg.Done()
+
+			}
+		}()
+	}
+	for xi := range xs {
+		wg.Add(1)
+		inputChan <- xi
+	}
+	close(inputChan)
+	wg.Wait()
+	return ys
+}
