@@ -13,3 +13,12 @@ func IsNot[T comparable](x T) func(T) bool {
 		return x != y
 	}
 }
+
+func Contains[T comparable](xs []T, x T) bool {
+	for _, y := range xs {
+		if x == y {
+			return true
+		}
+	}
+	return false
+}
