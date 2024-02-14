@@ -43,3 +43,21 @@ func Filter[T any](xs []T, f func(T) bool) []T {
 	}
 	return ys
 }
+
+// FoldL applies a function to each element of a list and returns the accumulated result.
+// It moves left to right.
+func FoldL[T, U any](xs []T, acc U, f func(U, T) U) U {
+	for _, x := range xs {
+		acc = f(acc, x)
+	}
+	return acc
+}
+
+// FoldR applies a function to each element of a list and returns the accumulated result.
+// It moves right to left.
+func FoldR[T, U any](xs []T, acc U, f func(T, U) U) U {
+	for i := len(xs) - 1; i >= 0; i-- {
+		acc = f(xs[i], acc)
+	}
+	return acc
+}
