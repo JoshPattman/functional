@@ -16,8 +16,17 @@ func Map[T, U any](xs []T, f func(T) U) []U {
 	return ys
 }
 
+// Make creates a list of length n by applying a function.
+func Make[T any](n int, f func() T) []T {
+	ys := make([]T, n)
+	for i := 0; i < n; i++ {
+		ys[i] = f()
+	}
+	return ys
+}
+
 // Make creates a list of length n by applying a function to each index.
-func Make[T any](n int, f func(int) T) []T {
+func MakeIdx[T any](n int, f func(int) T) []T {
 	ys := make([]T, n)
 	for i := 0; i < n; i++ {
 		ys[i] = f(i)

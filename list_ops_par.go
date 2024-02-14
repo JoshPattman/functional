@@ -56,7 +56,34 @@ func PMap[T, U any](xs []T, f func(T) U, workers int) []U {
 }
 
 // PMake creates a slice of length n by applying a function to each index in parallel.
-func PMake[T any](n int, f func(int) T, workers int) []T {
+func PMake[T any](n int, f func() T, workers int) []T {
+	inputChan := make(chan int, n)
+	ys := make([]T, n)
+	wg := sync.WaitGroup{}
+	for i := 0; i < workers; i++ {
+		go func() {
+			for {
+				index, ok := <-inputChan
+				if !ok {
+					return
+				}
+				ys[index] = f()
+				wg.Done()
+
+			}
+		}()
+	}
+	for xi := 0; xi < n; xi++ {
+		wg.Add(1)
+		inputChan <- xi
+	}
+	close(inputChan)
+	wg.Wait()
+	return ys
+}
+
+// PMake creates a slice of length n by applying a function to each index in parallel.
+func PMakeIdx[T any](n int, f func(int) T, workers int) []T {
 	inputChan := make(chan int, n)
 	ys := make([]T, n)
 	wg := sync.WaitGroup{}

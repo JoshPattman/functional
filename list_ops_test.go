@@ -47,7 +47,7 @@ func TestPMap(t *testing.T) {
 }
 
 func TestMake(t *testing.T) {
-	vs := Make(3, func(i int) int {
+	vs := MakeIdx(3, func(i int) int {
 		return i
 	})
 	if len(vs) != 3 || vs[0] != 0 || vs[1] != 1 || vs[2] != 2 {
@@ -56,7 +56,7 @@ func TestMake(t *testing.T) {
 }
 
 func TestPMake(t *testing.T) {
-	vs := PMake(3, func(i int) int {
+	vs := PMakeIdx(3, func(i int) int {
 		return i
 	}, NumCPU())
 	if len(vs) != 3 || vs[0] != 0 || vs[1] != 1 || vs[2] != 2 {
