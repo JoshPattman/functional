@@ -8,6 +8,14 @@ func Sum[T Number](vs []T) T {
 	return sum
 }
 
+func Prod[T Number](vs []T) T {
+	prod := T(1)
+	for _, v := range vs {
+		prod *= v
+	}
+	return prod
+}
+
 func Mean[T Number](vs []T) T {
 	return Sum(vs) / T(len(vs))
 }
